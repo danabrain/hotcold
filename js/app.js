@@ -12,40 +12,39 @@ $(document).ready(function(){
     });
 
     /*--creates random number when page loads--*/
-    var ranNum = randomNumber();
-    console.log(ranNum);
-
     function randomNumber() {
-    return Math.floor(Math.random()*(100-1)) +1;
-  }
+      return Math.floor(Math.random()*(100-1)) +1;
+    }
 
     /*--- function newGame(); *will call other functions when user clicks "New Game" ---*/
-    var newGame = function() {
+      var newGame = function() {
+      /*--resets guessCount and guessList when newGame is invoked--*/
+      var guessCount = 0
+      $("#count").html("0");
+      $("#guessList").html("");
+      $("#feedback").html("Make your Guess!");
 
-    /*--resets guessCount and guessList when newGame is invoked--*/
-    var guessCount = 0
-    $("#count").html("0");
-    $("#guessList").html("");
-    $("#feedback").html("Make your Guess!");
+      var ranNum = randomNumber();
+      console.log(ranNum);
 
-    /*--listens for submit and captures userGuess--*/
-    $("form").on('submit', function(event) {
-        event.preventDefault();
-        var numberGuess = parseInt($("#userGuess").val());
+      /*--listens for submit and captures userGuess--*/
+      $("form").off().on('submit', function(event) {
+          event.preventDefault();
+          var numberGuess = parseInt($("#userGuess").val());
 
-        /*--resets input field--*/
-        $("#userGuess").val("");
+          /*--resets input field--*/
+          $("#userGuess").val("");
 
-        /*--compares userGuess to random number--*/
-        if(isNaN(numberGuess)) {
-          $("#feedback").html("Please enter a number 1-100");
-          return;
-        } else {
-          if(numberGuess < 1 || numberGuess > 100) {
+          /*--compares userGuess to random number--*/
+          if(isNaN(numberGuess)) {
             $("#feedback").html("Please enter a number 1-100");
             return;
+          } else {
+            if(numberGuess < 1 || numberGuess > 100) {
+              $("#feedback").html("Please enter a number 1-100");
+              return;
+            }
           }
-        }
 
         /*--populates guessList with new <li>--*/
         $("#guessList").append($("<li>", {"text": numberGuess}));
@@ -54,12 +53,20 @@ $(document).ready(function(){
         if(numberGuess === ranNum) {
           $("#feedback").html("That's It!");
         } else {
-            if(numberGuess < ranNum) {
-              $("#feedback").html("Too low!");
+            if(numberGuess < ranNum-50 || numberGuess > ranNum + 50) {
+              $("#feedback").html("Ice Cold!");
             } else {
-              $("#feedback").html("Too high!");
+              if(numberGuess < ranNum-20 || numberGuess > ranNum + 20) {
+                $("#feedback").html("Cold!");
+              } else {
+                if(numberGuess < ranNum-10 || numberGuess > ranNum + 10) {
+                  $("#feedback").html("WARM!");
+                } else {
+              $("#feedback").html("RED HOT!");
             }
+          }
         }
+      }
 
         /*--increments guess count--*/
         guessCount = guessCount + 1
@@ -72,13 +79,13 @@ $(document).ready(function(){
       newGame();
 
       /*--calls newGame function when New button is clicked--*/
-      /*-- !!! THIS IS NOT CALLING A NEW GAME!  It doesn't generate a number or clear guess count  !!!! */
+      var buttonPress = function() {
        $("a.new").on('click', function(e) {
         e.preventDefault();
         newGame();
-        console.log(ranNum);
       });
+     }
 
-
+     buttonPress();
 });
 
