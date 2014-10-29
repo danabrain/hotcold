@@ -72,7 +72,7 @@ $(document).ready(function(){
       newGame();
 
       /*--calls newGame function when New button is clicked--*/
-      /*-- !!! THIS IS NOT CALLING A NEW GAME!  It doesn't generate a number or clear guess count  !!!! *--/
+      /*-- !!! THIS IS NOT CALLING A NEW GAME!  It doesn't generate a number or clear guess count  !!!! */
        $("a.new").on('click', function(e) {
         e.preventDefault();
         newGame();
